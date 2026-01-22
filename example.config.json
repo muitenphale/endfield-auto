@@ -1,0 +1,16 @@
+{
+    "accounts": [
+        {
+            "name": "My Main Account",
+            "cred": "YOUR_CRED_TOKEN_HERE",
+            "sk_game_role": "SERVER_UID_RANDOM"
+        },
+        {
+            "name": "My Sub Account",
+            "cred": "ANOTHER_CRED_TOKEN_HERE",
+            "sk_game_role": "SERVER_UID_RANDOM"
+        }
+    ],
+    "discord_webhook": "https://discord.com/api/webhooks/YOUR_WEBHOOK_URL_HERE",
+    "schedule_time": "00:00"
+}
