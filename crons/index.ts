@@ -2,11 +2,13 @@ import { CronJob } from "cron";
 import checkInCron from "./check-in";
 import checkInRecallCron from "./check-in-recall";
 import cacheCleanupCron from "./cache-cleanup";
+import staminaCheckCron from "./stamina-check";
 
 const definitions = [
     checkInCron,
     checkInRecallCron,
-    cacheCleanupCron
+    cacheCleanupCron,
+    staminaCheckCron
 ];
 
 export type CronDefinition = {

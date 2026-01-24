@@ -9,6 +9,10 @@ export interface Account {
     name: string;
     cred: string;
     sk_game_role: string;
+    settings?: {
+        stamina_check?: boolean;
+        stamina_threshold?: number;
+    };
 }
 
 export type PlatformType = "discord" | "webhook";

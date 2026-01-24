@@ -66,10 +66,13 @@ export class Endfield extends Game {
         return await ci.execute();
     }
 
-    async fetchGameStats(account: Account): Promise<StoredAccount["game"] | null> {
+    async fetchGameStats(account: Account, options: { bypassCache?: boolean } = {}): Promise<StoredAccount["game"] | null> {
         const cacheKey = `stats:endfield:${account.name}`;
-        const cached = cache.get<StoredAccount["game"]>(cacheKey);
-        if (cached) return cached;
+
+        if (!options.bypassCache) {
+            const cached = cache.get<StoredAccount["game"]>(cacheKey);
+            if (cached) return cached;
+        }
 
         try {
             const detailResponse = await ak.Got<ApiResponse<{ detail: {

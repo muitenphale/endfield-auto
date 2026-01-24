@@ -28,7 +28,12 @@
         {
             "name": "My Main Account",
             "cred": "YOUR_CRED_TOKEN_HERE",
-            "sk_game_role": "SERVER_UID_RANDOM"
+            "sk_game_role": "SERVER_UID_RANDOM",
+            "settings": {
+                "stamina_check": true,
+                "HELP_STAMINA_THRESHOLD": "Current Max Stamina - threshold. E.g. 210 - 10 = 200 threshold",
+                "stamina_threshold": -10
+            }
         }
     ]
 }

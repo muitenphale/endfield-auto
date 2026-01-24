@@ -74,6 +74,7 @@ export abstract class Game {
 
     abstract init(): Promise<void>;
     abstract checkIn(): Promise<SignInResult[]>;
+    abstract fetchGameStats(account: Account, options?: { bypassCache?: boolean }): Promise<StoredAccount["game"] | null>;
 
     static get(name: string): Game | undefined {
         return Game.list.get(name.toLowerCase());

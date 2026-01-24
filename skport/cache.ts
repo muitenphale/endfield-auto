@@ -18,6 +18,18 @@ export function get<T>(key: string): T | null {
     return entry.data;
 }
 
+export function getWithMetadata<T>(key: string): CacheEntry<T> | null {
+    const entry = cache.get(key) as CacheEntry<T> | undefined;
+    if (!entry) return null;
+
+    if (Date.now() - entry.timestamp >= entry.ttl) {
+        cache.delete(key);
+        return null;
+    }
+
+    return entry;
+}
+
 export function set<T>(key: string, data: T, ttl: number = 60 * 60 * 1000): void {
     cache.set(key, {
         data,
