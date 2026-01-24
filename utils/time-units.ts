@@ -21,7 +21,7 @@ export function formatSeconds(seconds: number): string {
     const parts = [];
     if (h > 0) parts.push(`${h}h`);
     if (m > 0) parts.push(`${m}m`);
-    if (s > 0 && h === 0) parts.push(`${s}s`); // Only show seconds if no hours
+    if (s > 0) parts.push(`${s}s`);
 
     return parts.length > 0 ? parts.join(" ") : "0s";
 }
