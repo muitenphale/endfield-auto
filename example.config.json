@@ -1,16 +1,34 @@
 {
+    "platforms": [
+        {
+            "id": "discord_bot",
+            "active": false,
+            "type": "discord",
+            "botId": "YOUR_BOT_ID_HERE",
+            "token": "YOUR_BOT_TOKEN_HERE"
+        },
+        {
+            "id": "discord_webhook",
+            "active": true,
+            "type": "webhook",
+            "url": "https://discord.com/api/webhooks/YOUR_WEBHOOK_URL_HERE"
+        }
+    ],
+    "crons": [
+        {
+            "name": "check-in",
+            "scheduleTime": "0 0 * * *"
+        },
+        {
+            "name": "check-in-recall",
+            "scheduleTime": "0 23 * * *"
+        }
+    ],
     "accounts": [
         {
             "name": "My Main Account",
             "cred": "YOUR_CRED_TOKEN_HERE",
             "sk_game_role": "SERVER_UID_RANDOM"
-        },
-        {
-            "name": "My Sub Account",
-            "cred": "ANOTHER_CRED_TOKEN_HERE",
-            "sk_game_role": "SERVER_UID_RANDOM"
         }
-    ],
-    "discord_webhook": "https://discord.com/api/webhooks/YOUR_WEBHOOK_URL_HERE",
-    "schedule_time": "00:00"
+    ]
 }
