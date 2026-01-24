@@ -2,7 +2,7 @@
   <img src="https://play-lh.googleusercontent.com/IHJeGhqSpth4VzATp_afjsCnFRc-uYgGC1EV3b2tryjyZsVrbcaeN5L_m8VKwvOSpIu_Skc49mDpLsAzC6Jl3mM" width="128" height="128" alt="Endfield Field Assistant">
 </p>
 
-<h1 align="center">Protocol Assistant: Endfield</h1>
+<h1 align="center">Arknights: Endfield Auto</h1>
 
 <p align="center">
   An advanced automation and monitoring suite for <b>Arknights: Endfield</b> via SKPort.
