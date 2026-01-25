@@ -26,6 +26,7 @@
 -   **Interactive Terminal**: Real-time insights into level, world level, BP progress, and daily mission activation.
 -   **Discord Integration**: Slash Command support and rich notification embeds via Bot or Webhook.
 -   **Multi-Account**: Manage multiple Arknights: Endfield accounts from a single instance.
+-   **Headless Mode**: Can run entirely without Discord, perfect for lightweight server hosting with console-only logging.
 
 ---
 
@@ -42,24 +43,37 @@
     cd endfield-auto
     ```
 
-2.  **Install Dependencies**:
+### Option 1: Standard Deployment
+1.  **Install Dependencies**:
     ```bash
     bun install
     # or
     npm install
     ```
 
-3.  **Initialize Configuration**:
+2.  **Initialize Configuration**:
     Copy the example config and fill in your details:
     ```bash
     cp example.config.json config.json
     ```
 
-4.  **Start the Assistant**:
+3.  **Start the Assistant**:
     ```bash
     bun index.ts
     # or
     npm start
+    ```
+
+### Option 2: Docker Deployment (Recommended)
+1.  **Initialize Configuration**:
+    ```bash
+    cp example.config.json config.json
+    ```
+    *Fill in your credentials in `config.json` before proceeding.*
+
+2.  **Start with Docker Compose**:
+    ```bash
+    docker compose up -d
     ```
 
 ---

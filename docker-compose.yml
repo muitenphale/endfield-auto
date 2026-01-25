@@ -1,0 +1,9 @@
+services:
+  endfield-auto:
+    build: .
+    container_name: endfield-auto
+    restart: always
+    volumes:
+      - ./config.json:/app/config.json
+    environment:
+      - TZ=Asia/Shanghai
