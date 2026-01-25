@@ -20,11 +20,12 @@
 
 ## Key Features
 
--   Automated Attendance: Executes daily sign-ins across all configured accounts.
--   Stamina Monitoring: Tracks current stamina and calculates exactly when it will reach maximum capacity.
--   Interactive Terminal: Real-time insights into level, world level, BP progress, and daily mission activation.
--   Discord Integration: Slash Command support and rich webhook notifications.
--   Multi-Account: Manage multiple Arknights: Endfield accounts from a single instance.
+-   **Automated Attendance**: Executes daily sign-ins across all configured accounts.
+-   **Stamina Monitoring**: Tracks current stamina and predicts exactly when it will reach maximum capacity using real-time regeneration logic.
+-   **Daily Mission Reminders**: Automated checks to ensure you haven't missed your daily mission rewards before the server reset.
+-   **Interactive Terminal**: Real-time insights into level, world level, BP progress, and daily mission activation.
+-   **Discord Integration**: Slash Command support and rich notification embeds via Bot or Webhook.
+-   **Multi-Account**: Manage multiple Arknights: Endfield accounts from a single instance.
 
 ---
 
@@ -84,7 +85,12 @@ The `config.json` is the central brain of the assistant.
         {
             "name": "Operator-Alpha",
             "cred": "YOUR_CRED_TOKEN",
-            "sk_game_role": "SERVER_UID_REST"
+            "sk_game_role": "SERVER_UID_HERE",
+            "settings": {
+                "stamina_check": true,
+                "stamina_threshold": -10,
+                "daily_check": true
+            }
         }
     ],
     "platforms": [
@@ -96,19 +102,29 @@ The `config.json` is the central brain of the assistant.
             "botId": "APPLICATION_ID"
         }
     ],
-    "tasks": [
+    "crons": [
         {
             "name": "check-in",
-            "scheduleTime": "30 1 * * *"
+            "scheduleTime": "0 0 * * *"
+        },
+        {
+            "name": "stamina-check",
+            "scheduleTime": "*/30 * * * *"
+        },
+        {
+            "name": "daily-check",
+            "scheduleTime": "0 21 * * *"
         }
     ]
 }
 ```
 
-### Configuration Breakdown
--   **`accounts`**: Your Endfield credentials.
--   **`platforms`**: Discord integration settings. Supports `discord` (bot with commands) or `webhook` (notifications only).
--   **`tasks`**: Cron schedules for automated operations.
+### Account Settings
+-   **`stamina_check`**: Enable/Disable stamina monitoring for this account.
+-   **`stamina_threshold`**:
+    -   Use a **positive** number for an absolute threshold (e.g., `200`).
+    -   Use a **negative** number for a relative offset from max (e.g., `-10` will alert when you are 10 points away from capping).
+-   **`daily_check`**: Enable/Disable daily mission reminders at the scheduled time.
 
 ---
 
@@ -119,7 +135,7 @@ To connect the assistant to your account:
 1.  Log in to the [SKPort Endfield Portal](https://game.skport.com/endfield/sign-in).
 2.  Open **Developer Tools** (F12) -> **Network Tab**.
 3.  Perform any action (or refresh) and find a request to `zonai.skport.com`.
-4.  Copy the `cred` and `sk-game-role` (or `uid` as part of the role string) from the **Request Headers**.
+4.  Copy the `cred` and `sk_game_role` from the **Request Headers**.
 
 ---
 

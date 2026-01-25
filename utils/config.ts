@@ -12,6 +12,7 @@ export interface Account {
     settings?: {
         stamina_check?: boolean;
         stamina_threshold?: number;
+        daily_check?: boolean;
     };
 }
 

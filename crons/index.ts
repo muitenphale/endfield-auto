@@ -3,12 +3,14 @@ import checkInCron from "./check-in";
 import checkInRecallCron from "./check-in-recall";
 import cacheCleanupCron from "./cache-cleanup";
 import staminaCheckCron from "./stamina-check";
+import dailyCheckCron from "./daily-check";
 
 const definitions = [
     checkInCron,
     checkInRecallCron,
     cacheCleanupCron,
-    staminaCheckCron
+    staminaCheckCron,
+    dailyCheckCron
 ];
 
 export type CronDefinition = {

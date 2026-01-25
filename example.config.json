@@ -22,6 +22,14 @@
         {
             "name": "check-in-recall",
             "scheduleTime": "0 23 * * *"
+        },
+        {
+            "name": "stamina-check",
+            "scheduleTime": "*/30 * * * *"
+        },
+        {
+            "name": "daily-check",
+            "scheduleTime": "0 21 * * *"
         }
     ],
     "accounts": [
@@ -32,7 +40,8 @@
             "settings": {
                 "stamina_check": true,
                 "HELP_STAMINA_THRESHOLD": "Current Max Stamina - threshold. E.g. 210 - 10 = 200 threshold",
-                "stamina_threshold": -10
+                "stamina_threshold": -10,
+                "daily_check": true
             }
         }
     ]
