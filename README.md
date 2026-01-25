@@ -76,6 +76,11 @@
     docker compose up -d
     ```
 
+### Option 3: Google Script (Standalone)
+For users who want automation without self-hosting.
+1.  Navigate to `services/google-script/` in this repository.
+2.  Follow the [Setup Guide](services/google-script/README.md) to deploy the standalone check-in service on Google's infrastructure.
+
 ---
 
 ## Field Commands
