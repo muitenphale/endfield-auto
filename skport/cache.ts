@@ -57,3 +57,29 @@ export function cleanup(): void {
 export function clear(): void {
     cache.clear();
 }
+
+/**
+ * Predicts a value that regenerates over time.
+ * Prioritizes recoveryTime (sync with server) over manual elapsed time calculation.
+ */
+export function predictValue(options: {
+    current: number;
+    max: number;
+    recoveryTime?: number;
+    lastUpdated: number;
+    regenRate: number;
+}): number {
+    const now = Math.floor(Date.now() / 1000);
+
+    if (options.recoveryTime) {
+        if (options.recoveryTime > now) {
+            const missing = Math.ceil((options.recoveryTime - now) / options.regenRate);
+            return Math.max(0, options.max - missing);
+        }
+        return options.max;
+    }
+
+    const elapsed = (Date.now() - options.lastUpdated) / 1000;
+    const gained = Math.floor(elapsed / options.regenRate);
+    return Math.min(options.max, options.current + gained);
+}

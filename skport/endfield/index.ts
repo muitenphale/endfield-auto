@@ -4,6 +4,7 @@ import * as cache from "../cache";
 
 export class Endfield extends Game {
     name = "endfield";
+    static REGEN_RATE = 432;
 
     constructor() {
         super();

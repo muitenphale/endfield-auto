@@ -1,6 +1,8 @@
 import type { CommandModule, CommandContext } from "../../classes/command";
 import type { GameStats } from "../../skport/template";
 import { formatTimeRemaining } from "../../utils/time-units";
+import * as cache from "../../skport/cache";
+import Endfield from "../../skport/endfield";
 
 const ENDFIELD_ICON = "https://play-lh.googleusercontent.com/IHJeGhqSpth4VzATp_afjsCnFRc-uYgGC1EV3b2tryjyZsVrbcaeN5L_m8VKwvOSpIu_Skc49mDpLsAzC6Jl3mM";
 const EMBED_COLOR = 0x2ECC71;
@@ -96,6 +98,16 @@ const terminal: CommandModule = {
                 if (!stored.game) {
                     await ctx.ephemeral(`Detailed data for **${stored.account.name}** is not yet available. Please try again after the next automated update or use /check-in.`);
                     continue;
+                }
+
+                if (stored.game.stamina) {
+                    stored.game.stamina.current = cache.predictValue({
+                        current: stored.game.stamina.current,
+                        max: stored.game.stamina.max,
+                        recoveryTime: stored.game.stamina.recoveryTime,
+                        lastUpdated: stored.lastUpdated,
+                        regenRate: Endfield.REGEN_RATE
+                    });
                 }
 
                 if (ctx.platform.name === "Discord") {

@@ -1,5 +1,7 @@
 import type { StoredAccount } from "../../skport/template";
 import { formatTimeRemaining } from "../../utils/time-units";
+import * as cache from "../../skport/cache";
+import Endfield from "../../skport/endfield";
 
 const ENDFIELD_ICON = "https://play-lh.googleusercontent.com/IHJeGhqSpth4VzATp_afjsCnFRc-uYgGC1EV3b2tryjyZsVrbcaeN5L_m8VKwvOSpIu_Skc49mDpLsAzC6Jl3mM";
 const EMBED_COLOR_STAMINA = 0x00A8FF;
@@ -43,8 +45,6 @@ function buildStaminaEmbed(account: StoredAccount, threshold: number) {
     };
 }
 
-const REGEN_SECONDS = 432;
-
 export default {
     name: "stamina-check",
     expression: "*/30 * * * *",
@@ -71,22 +71,14 @@ export default {
             if (account.game?.stamina) {
                 const stamina = account.game.stamina;
                 const target = stamina.max + threshold;
-                const now = Date.now() / 1000;
-                let predicted = stamina.current;
 
-                if (stamina.recoveryTime && stamina.recoveryTime > now) {
-                    // Use recoveryTime (timestamp when stamina is full)
-                    const missing = Math.ceil((stamina.recoveryTime - now) / REGEN_SECONDS);
-                    predicted = Math.max(0, stamina.max - missing);
-                } else if (stamina.recoveryTime && stamina.recoveryTime <= now) {
-                    // Already full
-                    predicted = stamina.max;
-                } else if (account.lastUpdated) {
-                    // Fallback to manual calculation if we have lastUpdated but no recoveryTime
-                    const elapsed = (Date.now() - account.lastUpdated) / 1000;
-                    const gained = Math.floor(elapsed / REGEN_SECONDS);
-                    predicted = Math.min(stamina.max, stamina.current + gained);
-                }
+                const predicted = cache.predictValue({
+                    current: stamina.current,
+                    max: stamina.max,
+                    recoveryTime: stamina.recoveryTime,
+                    lastUpdated: account.lastUpdated,
+                    regenRate: Endfield.REGEN_RATE
+                });
 
                 if (predicted < target) {
                     ak.Logger.debug(`[${account.account.name}] Prediction: ${predicted}/${stamina.max} (Target: ${target}). Below threshold, skipping API hit.`);
