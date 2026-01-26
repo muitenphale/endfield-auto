@@ -61,9 +61,9 @@ function buildDiscordEmbed(result: CheckInResult, index: number, total: number) 
         title,
         description,
         color,
-        thumbnail: { url: avatar },
+        thumbnail: { url: thumbnail },
         fields,
-        footer: { text: `SKPort Auto Check-In (${index}/${total}) Executed`, icon_url: thumbnail },
+        footer: { text: `SKPort Auto Check-In (${index}/${total}) Executed`, icon_url: avatar },
         timestamp: new Date().toISOString(),
     };
 }
