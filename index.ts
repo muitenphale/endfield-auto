@@ -7,6 +7,8 @@ import initializeCrons from "./crons";
 import Platform from "./platform/template";
 import Commands from "./classes/command";
 
+import { syncTime } from "./utils/time-sync";
+
 async function initializeAk(): Promise<void> {
     const config = loadConfig();
     const gotInstance = new Got();
@@ -31,6 +33,8 @@ async function initializeAk(): Promise<void> {
         platforms.set(pConfig.id, platform);
     }
 
+    const timeOffset = await syncTime();
+
     globalThis.ak = {
         Logger: logger,
         Config: config,
@@ -38,6 +42,7 @@ async function initializeAk(): Promise<void> {
         Platforms: platforms,
         Commands: commandInstance,
         SKPort: Game,
+        TimeOffset: timeOffset,
     };
 
     // Initialize specific games
