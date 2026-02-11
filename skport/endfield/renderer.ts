@@ -2,6 +2,7 @@ import { createCanvas, type CanvasRenderingContext2D } from "@napi-rs/canvas";
 import { registerFonts, pathIndustrial } from "../../utils/canvas";
 import { getRemoteAsset } from "../../utils/assets";
 import type { StoredAccount, SignInResult } from "../template";
+import Endfield from "./index";
 
 registerFonts();
 
@@ -206,17 +207,40 @@ export async function drawDashboard(data: StoredAccount): Promise<Buffer> {
         }
 
         if (current < max && recoveryTime) {
-            const diff = Math.max(0, recoveryTime - Date.now() / 1000);
+            const now = Date.now() / 1000;
+            const diff = Math.max(0, recoveryTime - now);
             const h = Math.floor(diff / 3600);
             const m = Math.floor((diff % 3600) / 60);
 
+            const pointsToRecover = max - current;
+            const nextPointTs = recoveryTime - (pointsToRecover - 1) * Endfield.REGEN_RATE;
+            const nextDiff = Math.max(0, nextPointTs - now);
+            const nm = Math.floor(nextDiff / 60);
+            const ns = Math.floor(nextDiff % 60);
+
+            const fullAt = new Date(recoveryTime * 1000);
+            const fullAtStr = fullAt.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
+
             ctx.fillStyle = COLOR_TEXT_SECONDARY;
             ctx.font = "16px EndfieldBold";
-            ctx.fillText("RECOVERY_ETA:", gaugeX, gaugeY - 20);
-
+            ctx.fillText("NEXT_REFILL:", gaugeX, gaugeY - 25);
             ctx.fillStyle = COLOR_TEXT_PRIMARY;
-            ctx.font = "bold 24px EndfieldBold";
-            ctx.fillText(`${h}H ${m}M`, gaugeX + 140, gaugeY - 20);
+            ctx.font = "bold 22px EndfieldBold";
+            ctx.fillText(`${nm}M ${ns}S`, gaugeX + 105, gaugeY - 25);
+
+            ctx.fillStyle = COLOR_TEXT_SECONDARY;
+            ctx.font = "16px EndfieldBold";
+            ctx.fillText("TOTAL_ETA:", gaugeX + 210, gaugeY - 25);
+            ctx.fillStyle = COLOR_TEXT_PRIMARY;
+            ctx.font = "bold 22px EndfieldBold";
+            ctx.fillText(`${h}H ${m}M`, gaugeX + 300, gaugeY - 25);
+
+            ctx.fillStyle = COLOR_TEXT_SECONDARY;
+            ctx.font = "16px EndfieldBold";
+            ctx.fillText("FULL_AT:", gaugeX + 410, gaugeY - 25);
+            ctx.fillStyle = COLOR_TEXT_PRIMARY;
+            ctx.font = "bold 22px EndfieldBold";
+            ctx.fillText(fullAtStr, gaugeX + 490, gaugeY - 25);
         }
     }
 
