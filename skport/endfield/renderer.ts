@@ -221,26 +221,26 @@ export async function drawDashboard(data: StoredAccount): Promise<Buffer> {
             const fullAt = new Date(recoveryTime * 1000);
             const fullAtStr = fullAt.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
 
-            ctx.fillStyle = COLOR_TEXT_SECONDARY;
-            ctx.font = "16px EndfieldBold";
-            ctx.fillText("NEXT_REFILL:", gaugeX, gaugeY - 25);
-            ctx.fillStyle = COLOR_TEXT_PRIMARY;
-            ctx.font = "bold 22px EndfieldBold";
-            ctx.fillText(`${nm}M ${ns}S`, gaugeX + 105, gaugeY - 25);
+            let currentX = gaugeX;
+            const metrics = [
+                { label: "NEXT_REFILL:", value: `${nm}M ${ns}S` },
+                { label: "TOTAL_ETA:", value: `${h}H ${m}M` },
+                { label: "FULL_AT:", value: fullAtStr }
+            ];
 
-            ctx.fillStyle = COLOR_TEXT_SECONDARY;
-            ctx.font = "16px EndfieldBold";
-            ctx.fillText("TOTAL_ETA:", gaugeX + 210, gaugeY - 25);
-            ctx.fillStyle = COLOR_TEXT_PRIMARY;
-            ctx.font = "bold 22px EndfieldBold";
-            ctx.fillText(`${h}H ${m}M`, gaugeX + 300, gaugeY - 25);
+            for (const metric of metrics) {
+                ctx.fillStyle = COLOR_TEXT_SECONDARY;
+                ctx.font = "16px EndfieldBold";
+                ctx.fillText(metric.label, currentX, gaugeY - 25);
+                const labelWidth = ctx.measureText(metric.label).width;
 
-            ctx.fillStyle = COLOR_TEXT_SECONDARY;
-            ctx.font = "16px EndfieldBold";
-            ctx.fillText("FULL_AT:", gaugeX + 410, gaugeY - 25);
-            ctx.fillStyle = COLOR_TEXT_PRIMARY;
-            ctx.font = "bold 22px EndfieldBold";
-            ctx.fillText(fullAtStr, gaugeX + 490, gaugeY - 25);
+                ctx.fillStyle = COLOR_TEXT_PRIMARY;
+                ctx.font = "bold 22px EndfieldBold";
+                ctx.fillText(metric.value, currentX + labelWidth + 12, gaugeY - 25);
+                const valueWidth = ctx.measureText(metric.value).width;
+
+                currentX += labelWidth + valueWidth + 60; // Move to next group with 60px gap
+            }
         }
     }
 
